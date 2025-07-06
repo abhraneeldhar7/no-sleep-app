@@ -4,6 +4,7 @@ import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
 import { ArrowUp, ArrowUp01, ArrowUpAZ } from "lucide-react";
 import auranetLogo from "../public/signatureLogoSimple.jpg"
 import Link from "next/link";
+import Footer from "@/components/footer";
 
 export default function Home() {
 
@@ -21,7 +22,6 @@ export default function Home() {
       </div>
       <Image className={styles.gradientBg} src={grad} alt="" />
       <div className={styles.heroDiv}>
-
         <h1 className="text-[40px] font-[600]">
           Doesn't let your free tiers sleep
         </h1>
@@ -30,8 +30,10 @@ export default function Home() {
           Activate
           <ArrowUp />
         </button>
-
       </div>
+
+
+      <Footer />
     </div>
   );
 }
