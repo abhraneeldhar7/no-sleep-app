@@ -27,10 +27,10 @@ export default function Home() {
           Doesn't let your free tiers sleep
         </h1>
         <p className="opacity-[0.9]">Pretend here is a sick landing page</p>
-        <button>
+        <Button>
           Activate
           <ArrowUp />
-        </button>
+        </Button>
       </div>
 
 
