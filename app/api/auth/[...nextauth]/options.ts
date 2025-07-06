@@ -3,6 +3,8 @@ import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { v4 as uuidv4 } from "uuid";
 import { userType } from "@/lib/types";
+import { getUserDetails } from "@/app/actions/supabaseFunctions";
+import { supabase } from "@/utils/supabase/client";
 
 
 
@@ -15,7 +17,7 @@ export const options: NextAuthOptions = {
     })
   ],
   pages: {
-    // signIn: '/login',
+    signIn: '/',
   },
   session: {
     strategy: "jwt",
@@ -23,7 +25,31 @@ export const options: NextAuthOptions = {
   callbacks: {
 
     async signIn({ user, account, profile }) {
-      
+      const res = await getUserDetails({ email: user.email as string });
+      const userDetails: userType = res[0];
+
+      if (!userDetails) {
+        const newUser: userType = {
+          user_id: uuidv4(),
+          name: user.name as string,
+          email: user.email as string,
+          created_at: Date.now()
+        }
+        await supabase
+          .from("users")
+          .insert(newUser);
+
+        user.id = newUser.user_id
+        user.name = newUser.name
+        user.email = newUser.email
+      }
+      else {
+        user.id = userDetails.user_id
+        user.name = userDetails.name
+        user.email = userDetails.email
+      }
+
+
       return true;
     },
 
@@ -31,7 +57,7 @@ export const options: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.role = user.role || "user";
+        token.role = "user";
       }
       return token;
     },

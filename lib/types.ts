@@ -1,4 +1,14 @@
 export interface userType {
-    name:string,
-    userId:string
+    user_id: string,
+    name: string,
+    email: string,
+    created_at: number
+}
+
+export interface projectType {
+    id: string,
+    owner_id: string,
+    name: string,
+    description: string,
+    created_at:number
 }

@@ -1,0 +1,126 @@
+.main {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #faedff;
+    position: relative;
+    font-family: "Poppins";
+    padding-top: 100px;
+}
+
+
+.tabMain {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    padding: 10px 10px;
+    z-index: 5;
+}
+
+.tabDiv {
+    display: flex;
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fffafa48;
+    backdrop-filter: blur(40px);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.tabDiv img {
+    border: 1px solid rgba(0, 0, 0, 0.251);
+    padding: 5px;
+    background-color: white;
+}
+
+.tabDiv button {
+    background-color: white;
+    padding: 10px 15px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    height: 45px;
+    color: black;
+}
+
+.tabDiv button:hover {
+    background-color: rgb(245, 245, 245);
+    border: 2px solid rgba(255, 255, 255, 0.758);
+
+    cursor: pointer;
+}
+
+
+.mainContent {
+    padding: 20px;
+    margin: 0px 10px;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    background-color: #fffafa;
+    min-height: 80vh;
+}
+
+
+.gobackBtn {
+    height: 40px;
+    width: 40px;
+    background-color: white;
+    color: black;
+    transition: all 0.3s;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+}
+
+.gobackBtn:hover {
+    background-color: rgb(247, 247, 247);
+}
+
+.projectsDisplay{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeIn 0.2s ease-in;
+}
+
+.newProjDisplay {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0px auto;
+    animation: fadeIn 0.2s ease-in;
+
+}
+
+
+.projectEndpointDisplay {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0px auto;
+    animation: fadeIn 0.2s ease-in;
+
+}
+
+.responseDiv {
+    font-size: 15px;
+    padding: 10px;
+    background-color: rgb(234, 234, 234);
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-height: 150px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}

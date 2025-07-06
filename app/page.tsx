@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
@@ -11,11 +12,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import glasspanebg from "../public/blurglasspane.jpg"
 import { getServerSession } from "next-auth";
 import { options } from "./api/auth/[...nextauth]/options";
+import { signIn, useSession } from "next-auth/react";
 
 
-export default async function Home() {
-  const session = await getServerSession(options);
-  console.log(session)
+export default function Home() {
+  const { data: session } = useSession();
   return (
     <div className={styles.main}>
       <div className={styles.tabMain}>
@@ -37,9 +38,14 @@ export default async function Home() {
               </PopoverContent>
             </Popover>
 
-            <Link href="/">
-              <Button>Dashboard</Button>
-            </Link>
+            {session &&
+              <Link href="/dashboard">
+                <Button>Dashboard</Button>
+              </Link>
+            }
+            {!session &&
+              <Button onClick={() => { signIn() }}>Sign in</Button>}
+
           </div>
         </div>
       </div>
@@ -51,13 +57,15 @@ export default async function Home() {
         </h1>
         <p className="opacity-[0.9]">Pretend here is a sick landing page</p>
         {session &&
-          <Button>
-            Dashboard
-            <ArrowUp />
-          </Button>
+          <Link href="/dashboard">
+            <Button>
+              Dashboard
+              <ArrowUp />
+            </Button>
+          </Link>
         }
         {!session &&
-          <Button>
+          <Button onClick={() => { signIn() }}>
             Activate
             <ArrowUp />
           </Button>
@@ -70,12 +78,6 @@ export default async function Home() {
 
         <div className="flex gap-[10px] mx-auto">
 
-          {/* <Button onClick={() => { signIn() }}>
-            signin
-          </Button>
-          <Button onClick={() => { signOut() }}>
-            logout
-          </Button> */}
         </div>
         <div className="flex flex-wrap gap-[10px] px-[10px] justify-center">
 
@@ -84,9 +86,18 @@ export default async function Home() {
               <Image src={auranetLogo} className="absolute bg-[white] p-[4px] h-[26px] w-[26px] top-[10px] left-[10px] rounded-[50%]" alt="" />
               <p>Premium</p>
               <h1>Free</h1>
-              <Button>
-                Choose this plan
-              </Button>
+              {session &&
+                <Link href="/dashboard">
+                  <Button>
+                    Choose this plan
+                  </Button>
+                </Link>
+              }
+              {!session &&
+                <Button onClick={()=>{signIn()}}>
+                  Choose this plan
+                </Button>
+              }
             </div>
             <div className="opacity-[0.8]">
               <h2 className="text-[17px]">Premium plan include</h2>

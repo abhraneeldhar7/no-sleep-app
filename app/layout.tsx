@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProviders } from "./themeProviders";
 import SessionWrapper from "@/components/sessionWrapper";
+import InitPage from "@/components/initPage";
 
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body>
         <SessionWrapper>
           <ThemeProviders>
+            <InitPage />
             {children}
           </ThemeProviders>
         </SessionWrapper>
