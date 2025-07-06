@@ -7,6 +7,7 @@ import Link from "next/link";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export default function Home() {
 
@@ -19,19 +20,20 @@ export default function Home() {
           </Link>
 
           <div className="flex items-center gap-[10px]">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="bg-[white] p-[12px] rounded-[10px] border-[1px] border-black/10">
-                  <Sun size={18}/>
+            <Popover>
+              <PopoverTrigger asChild>
+                <div className={styles.themeSwitchBtn}>
+                  <Sun size={18} />
                 </div>
-              </TooltipTrigger>
-              <TooltipContent className="flex flex-col gap-[2px]">
+              </PopoverTrigger>
+              <PopoverContent className="py-[5px] px-[10px]">
                 <p>App works so good, I didn' make a darkmode.</p>
                 <p>Just add the APIs and forget.</p>
-              </TooltipContent>
-            </Tooltip>
+              </PopoverContent>
+            </Popover>
+
             <Link href="/">
-              <button>Dashboard</button>
+              <Button>Dashboard</Button>
             </Link>
           </div>
         </div>
