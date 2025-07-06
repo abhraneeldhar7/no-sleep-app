@@ -33,12 +33,13 @@
     align-items: center;
 }
 
-.heroDiv button:hover svg{
+.heroDiv button:hover svg {
     width: 30px;
     height: 30px;
     transform: rotate(45deg);
 }
-.heroDiv button svg{
+
+.heroDiv button svg {
     margin-left: 6px;
     transition: all 0.3s;
     width: 0px;
@@ -50,7 +51,7 @@
     z-index: -1;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     filter: invert(100%);
 }
@@ -74,7 +75,8 @@
     backdrop-filter: blur(20);
     border: 2px solid rgba(0, 0, 0, 0.2);
 }
-.tabDiv img{
+
+.tabDiv img {
     border: 1px solid rgba(0, 0, 0, 0.251);
     padding: 5px;
     background-color: white;
@@ -95,4 +97,94 @@
     border: 2px solid rgba(255, 255, 255, 0.758);
     color: white;
     cursor: pointer;
+}
+
+
+.subsCardsDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.subsCardsDiv .card1 {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.subsCardsDiv .card1 .r1 {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 300px;
+    padding-top: 45px;
+    position: relative;
+}
+
+.subsCardsDiv .card1 .r1 p {
+    font-size: 15px;
+}
+
+.subsCardsDiv .card1 .r1 h1 {
+    font-size: 32px;
+    line-height: 1em;
+}
+
+.subsCardsDiv .card1 .r1 button {
+    margin-top: 20px;
+    background: #855bf0;
+    background: linear-gradient(180deg, rgba(133, 91, 240, 1) 0%, rgba(96, 40, 234, 1) 100%);
+}
+
+
+
+
+
+
+
+.subsCardsDiv .card2{
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.subsCardsDiv .card2 .r1 {
+    color: white;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 300px;
+    padding-top: 45px;
+    position: relative;
+    background: #8155F0;
+    background: linear-gradient(137deg, rgba(129, 85, 240, 1) 0%, rgba(101, 47, 235, 1) 100%);
+}
+
+.subsCardsDiv .card2 .r1 p {
+    font-size: 15px;
+}
+
+.subsCardsDiv .card2 .r1 h1 {
+    font-size: 32px;
+    line-height: 1em;
+}
+
+.subsCardsDiv .card2 .r1 button {
+    margin-top: 20px;
+    background-color: #f1edfe;
+    color: black;
+    width: 100%;
 }

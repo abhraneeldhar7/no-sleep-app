@@ -1,10 +1,11 @@
 import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
-import { ArrowUp, ArrowUp01, ArrowUpAZ } from "lucide-react";
+import { ArrowUp, ArrowUp01, ArrowUpAZ, Check, CircleCheck } from "lucide-react";
 import auranetLogo from "../public/signatureLogoSimple.jpg"
 import Link from "next/link";
 import Footer from "@/components/footer";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
 
@@ -33,7 +34,61 @@ export default function Home() {
       </div>
 
 
-      <Footer />
+      <div className={styles.subsCardsDiv}>
+        <h1 className="text-[35px] font-[Inter]">Plans & Pricing</h1>
+
+
+        <div className="flex flex-wrap gap-[20px] justify-center">
+
+          <div className={styles.card1}>
+            <div className={styles.r1}>
+              <Image src={auranetLogo} className="absolute bg-[white] p-[4px] h-[26px] w-[26px] top-[10px] left-[10px] rounded-[50%]" alt="" />
+              <p>Premium</p>
+              <h1>Free</h1>
+              <Button>
+                Choose this plan
+              </Button>
+            </div>
+            <div className="opacity-[0.8]">
+              <h2 className="text-[17px]">Premium plan include</h2>
+              <div className="text-[15px] mt-[2px]">
+                <p className="flex items-center gap-[7px]"><CircleCheck size={15} color="white" fill="#6229f3" /> 10 projects per account</p>
+                <p className="flex items-center gap-[7px]"><CircleCheck size={15} color="white" fill="#6229f3" /> 5 APIs per project</p>
+                <p className="flex items-center gap-[7px]"><CircleCheck size={15} color="white" fill="#6229f3" /> Monthly statements</p>
+              </div>
+            </div>
+          </div>
+
+
+          <div className={styles.card2}>
+            <div className={styles.r1}>
+              <Image src={auranetLogo} className="absolute bg-[white] p-[4px] h-[26px] w-[26px] top-[10px] left-[10px] rounded-[50%]" alt="" />
+              <p>Turbo premium</p>
+              <h1>Also Free</h1>
+              <Link href="https://x.com/abhraneeldhar" className="w-[100%]" target="_blank">
+                <Button>
+                  Choose this plan
+                </Button>
+              </Link>
+            </div>
+            <div className="opacity-[0.8]">
+              <h2 className="text-[17px]">Premium plan include</h2>
+              <div className="text-[15px] mt-[2px]">
+                <p className="flex items-center gap-[7px]"><CircleCheck size={15} color="white" fill="#6229f3" /> Yeah that's pretty much it</p>
+                <p className="flex items-center gap-[7px]"><CircleCheck size={15} color="white" fill="#6229f3" /> It would be very based</p>
+                <p className="flex items-center gap-[7px]"><CircleCheck size={15} color="white" fill="#6229f3" /> If you follow my twitter tho</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div className="mt-[50px]">
+        <Footer />
+      </div>
+
     </div>
   );
 }
