@@ -1,6 +1,6 @@
 .main {
     width: 100%;
-    min-height: 100vh;
+    min-height: 200vh;
     /* background-color: #fffafa; */
     background-color: #fffafac7;
     font-family: "Poppins";
@@ -59,8 +59,8 @@
     position: fixed;
     top: 0px;
     width: 100%;
-    /* margin: 5px 0px; */
     padding: 10px 10px;
+    z-index: 5;
 }
 
 .tabDiv {
@@ -69,9 +69,14 @@
     padding: 10px 10px;
     border-radius: 10px;
     justify-content: space-between;
-    background-color: #fffafa;
+    align-items: center;
+    background-color: #fffafa76;
+    backdrop-filter: blur(20);
     border: 2px solid rgba(0, 0, 0, 0.2);
-
+}
+.tabDiv img{
+    border: 1px solid rgba(0, 0, 0, 0.251);
+    padding: 5px;
 }
 
 .tabDiv button {

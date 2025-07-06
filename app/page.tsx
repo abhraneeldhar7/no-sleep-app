@@ -2,6 +2,8 @@ import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
 import { ArrowUp, ArrowUp01, ArrowUpAZ } from "lucide-react";
+import auranetLogo from "../public/signatureLogoSimple.jpg"
+import Link from "next/link";
 
 export default function Home() {
 
@@ -9,8 +11,12 @@ export default function Home() {
     <div className={styles.main}>
       <div className={styles.tabMain}>
         <div className={styles.tabDiv}>
-          <h1>noCoffee</h1>
-          <button>Dashboard</button>
+          <Link href="/">
+            <Image src={auranetLogo} className="h-[45] w-[45] object-cover object-center rounded-[5px]" alt="" />
+          </Link>
+          <Link href="/">
+            <button>Dashboard</button>
+          </Link>
         </div>
       </div>
       <Image className={styles.gradientBg} src={grad} alt="" />
