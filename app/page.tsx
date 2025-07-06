@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import glasspanebg from "../public/blurglasspane.jpg"
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 
@@ -61,12 +61,18 @@ export default function Home() {
 
 
       <div className={styles.subsCardsDiv}>
-        <h1 className="text-[35px] font-[Inter]">Plans & Pricing</h1>
+        <h1 className="text-[35px] font-[Inter] mx-auto">Plans & Pricing</h1>
 
-        <Button onClick={() => { signOut }}>
-          logout
-        </Button>
-        <div className="flex flex-wrap gap-[20px] justify-center">
+        <div className="flex gap-[10px] mx-auto">
+
+          <Button onClick={() => { signIn() }}>
+            signin
+          </Button>
+          <Button onClick={() => { signOut() }}>
+            logout
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-[10px] px-[10px] justify-center">
 
           <div className={styles.card1}>
             <div className={styles.r1}>
