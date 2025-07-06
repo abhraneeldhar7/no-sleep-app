@@ -1,11 +1,12 @@
 import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
-import { ArrowUp, ArrowUp01, ArrowUpAZ, Check, CircleCheck } from "lucide-react";
+import { ArrowUp, CircleCheck, Sun } from "lucide-react";
 import auranetLogo from "../public/signatureLogoSimple.jpg"
 import Link from "next/link";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function Home() {
 
@@ -16,9 +17,23 @@ export default function Home() {
           <Link href="/">
             <Image src={auranetLogo} className="h-[45] w-[45] object-cover object-center rounded-[5px]" alt="" />
           </Link>
-          <Link href="/">
-            <button>Dashboard</button>
-          </Link>
+
+          <div className="flex items-center gap-[10px]">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="bg-[white] p-[12px] rounded-[10px] border-[1px] border-black/10">
+                  <Sun size={18}/>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="flex flex-col gap-[2px]">
+                <p>App works so good, I didn' make a darkmode.</p>
+                <p>Just add the APIs and forget.</p>
+              </TooltipContent>
+            </Tooltip>
+            <Link href="/">
+              <button>Dashboard</button>
+            </Link>
+          </div>
         </div>
       </div>
       <Image className={styles.gradientBg} src={grad} alt="" />
