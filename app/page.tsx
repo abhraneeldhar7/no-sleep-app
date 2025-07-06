@@ -23,7 +23,7 @@ export default function Home() {
       </div>
       <Image className={styles.gradientBg} src={grad} alt="" />
       <div className={styles.heroDiv}>
-        <h1 className="text-[40px] font-[600]">
+        <h1 className="text-[40px] font-[600] text-center leading-[1.2em]">
           Doesn't let your free tiers sleep
         </h1>
         <p className="opacity-[0.9]">Pretend here is a sick landing page</p>
