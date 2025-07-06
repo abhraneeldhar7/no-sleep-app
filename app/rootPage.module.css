@@ -2,7 +2,7 @@
     width: 100%;
     /* min-height: 200vh; */
     /* background-color: #fffafa; */
-    background-color: #fffafac7;
+    background-color: #fffafab8;
     font-family: "Poppins";
     position: relative;
 }
@@ -56,7 +56,7 @@
     z-index: -1;
     top: 0;
     left: 0;
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     filter: invert(100%);
 }
@@ -76,7 +76,7 @@
     border-radius: 10px;
     justify-content: space-between;
     align-items: center;
-    background-color: #fffafa76;
+    background-color: #fffafa48;
     backdrop-filter: blur(40px);
     border: 2px solid rgba(0, 0, 0, 0.2);
 }
@@ -133,7 +133,8 @@
     gap: 10px;
     width: 100%;
     /* align-items: center; */
-    margin-top: 30px;
+    padding-top: 30px;
+    background: rgb(251, 251, 251);
 }
 
 .subsCardsDiv .card1 {
@@ -145,6 +146,7 @@
     gap: 12px;
     width: 100%;
     max-width: 400px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .subsCardsDiv .card1 .r1 {
@@ -176,10 +178,6 @@
 
 
 
-
-
-
-
 .subsCardsDiv .card2 {
     background-color: white;
     padding: 10px;
@@ -189,6 +187,8 @@
     gap: 12px;
     width: 100%;
     max-width: 400px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
 }
 
 .subsCardsDiv .card2 .r1 {

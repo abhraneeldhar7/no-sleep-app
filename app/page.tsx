@@ -1,4 +1,3 @@
-"use client"
 import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
@@ -10,15 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import glasspanebg from "../public/blurglasspane.jpg"
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { getServerSession } from "next-auth";
+import { options } from "./api/auth/[...nextauth]/options";
 
 
-export default function Home() {
-  const { data: session } = useSession();
-  useEffect(() => {
-    console.log(session)
-  }, [session])
+export default async function Home() {
+  const session = await getServerSession(options);
+  console.log(session)
   return (
     <div className={styles.main}>
       <div className={styles.tabMain}>
@@ -53,10 +50,18 @@ export default function Home() {
           Doesn't let your free tiers sleep
         </h1>
         <p className="opacity-[0.9]">Pretend here is a sick landing page</p>
-        <Button>
-          Activate
-          <ArrowUp />
-        </Button>
+        {session &&
+          <Button>
+            Dashboard
+            <ArrowUp />
+          </Button>
+        }
+        {!session &&
+          <Button>
+            Activate
+            <ArrowUp />
+          </Button>
+        }
       </div>
 
 
@@ -65,12 +70,12 @@ export default function Home() {
 
         <div className="flex gap-[10px] mx-auto">
 
-          <Button onClick={() => { signIn() }}>
+          {/* <Button onClick={() => { signIn() }}>
             signin
           </Button>
           <Button onClick={() => { signOut() }}>
             logout
-          </Button>
+          </Button> */}
         </div>
         <div className="flex flex-wrap gap-[10px] px-[10px] justify-center">
 
