@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProviders } from "./themeProviders";
+import SessionWrapper from "@/components/sessionWrapper";
 
 
 export const metadata: Metadata = {
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProviders>
-          {children}
-        </ThemeProviders>
+        <SessionWrapper>
+          <ThemeProviders>
+            {children}
+          </ThemeProviders>
+        </SessionWrapper>
       </body>
-    </html>
+    </html >
   );
 }

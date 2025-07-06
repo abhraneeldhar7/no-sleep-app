@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
@@ -8,9 +9,16 @@ import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import glasspanebg from "../public/blurglasspane.jpg"
+import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
+
 
 export default function Home() {
-
+  const { data: session } = useSession();
+  useEffect(() => {
+    console.log(session)
+  }, [session])
   return (
     <div className={styles.main}>
       <div className={styles.tabMain}>
@@ -39,6 +47,7 @@ export default function Home() {
         </div>
       </div>
       <Image className={styles.gradientBg} src={grad} alt="" />
+      <Image className="absolute top-0 left-0 w-[100%] h-[100vh] object-cover opacity-[0.1]" src={glasspanebg} alt="" unoptimized />
       <div className={styles.heroDiv}>
         <h1 className="text-[40px] font-[600] text-center leading-[1.2em]">
           Doesn't let your free tiers sleep
@@ -54,7 +63,9 @@ export default function Home() {
       <div className={styles.subsCardsDiv}>
         <h1 className="text-[35px] font-[Inter]">Plans & Pricing</h1>
 
-
+        <Button onClick={() => { signOut }}>
+          logout
+        </Button>
         <div className="flex flex-wrap gap-[20px] justify-center">
 
           <div className={styles.card1}>
