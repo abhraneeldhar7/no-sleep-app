@@ -3,16 +3,16 @@ import Link from "next/link";
 import styles from "./db.module.css"
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {  ChevronLeft, ChevronsUpDown, LoaderCircle, LogOut, Pencil, Plus, Sun } from "lucide-react";
+import { ChevronLeft, ChevronsUpDown, LoaderCircle, LogOut, Pencil, Plus, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import auranetLogo from "../../public/signatureLogoSimple.jpg"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import {  signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-import { createNewProject,  getRandomThumbnailUrl, getUserProjects } from "../actions/supabaseFunctions";
+import { createNewProject, getRandomThumbnailUrl, getUserProjects } from "../actions/supabaseFunctions";
 import { useStore } from "@/lib/store";
 import { projectType } from "@/lib/types";
 import Footer from "@/components/footer";
@@ -42,7 +42,6 @@ export default function DashboardPage() {
             if (!userDetails || existingProjects) return
             const res = await getUserProjects(userDetails.user_id)
             setExistingProjects(res)
-            console.log(res)
         }
         init();
 
@@ -102,6 +101,9 @@ export default function DashboardPage() {
                 </Tooltip>
             </div>
 
+            {existingProjects === null &&
+                <div className="w-[100%] h-[100px] flex items-center justify-center"><LoaderCircle size={40} className="animate-spin" /></div>
+            }
             <div className={styles.projHolder}>
                 {existingProjects?.map((proj, index) => (
                     <div className=" flex flex-col max-w-[500px]" key={index} onClick={() => {
@@ -197,10 +199,9 @@ export default function DashboardPage() {
                             <PopoverTrigger asChild>
                                 <Button>{userDetails.name.split(" ")[0]}<ChevronsUpDown /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-[200px] p-[5px]">
-                                <Button variant="outline" className="w-[100%] text-[red]" onClick={() => { signOut() }}>
+                            <PopoverContent className="w-[100%] p-[5px]">
+                                <Button variant="outline" className="w-[100%] text-[red] bg-[white] border-none" onClick={() => { signOut() }}>
                                     <LogOut /> Log out
-
                                 </Button>
                             </PopoverContent>
                         </Popover>
