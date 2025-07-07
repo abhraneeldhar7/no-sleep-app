@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import styles from "./endpoint.module.css"
 import { Button } from "../ui/button";
-import { Check, ChevronLeft, Pencil } from "lucide-react";
+import { Check, ChevronLeft, Pencil, Rss, Wifi } from "lucide-react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { projectType } from "@/lib/types";
@@ -93,13 +93,15 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
                             if (tempProject) {
                                 tempProject.name = projName;
                                 tempProject.description = projDesc;
+                                tempProject.updated_at = Date.now();
                                 await saveProjectDetails(tempProject);
                                 setSelectedProject(tempProject);
                                 upsertProject(tempProject);
+                                setEditMode(false);
                                 setDisplayScreen("apiEndpoints");
                             }
 
-                            setSaveLoader(true);
+                            setSaveLoader(false);
 
                         }}>
                             Save
@@ -114,16 +116,25 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
             }
             <div className="flex gap-[10px] items-center">
                 <Input className="h-[40px]" placeholder="https://avengers-tower.stark/api/v1/threats/" ref={newAPIurlRef} />
-                <Button className="h-[40px] w-[40px] bg-[#10B981]" onClick={async () => {
+                <Button className="h-[40px] w-[40px]" variant="secondary" onClick={async () => {
                     if (!newAPIurlRef.current) return;
                     const apiUrl = newAPIurlRef.current.value.trim();
-                    const res = await fetch(apiUrl);
+                    const res = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Cache-Control': 'no-cache'
+                        }
+                    });
                     const apiRes = await res.json()
                     setapiResponse(apiRes);
                 }}>
-                    <Check />
+                    <Rss />
                 </Button>
             </div>
+            <Button className="bg-[#10B981] w-[100%]" >
+                Add to endpoints
+            </Button>
             <div className="flex flex-col gap-[10px]">
                 <h1 className="text-[16px] opacity-[0.8]">Response</h1>
                 <ScrollArea className={styles.responseDiv}>
@@ -132,7 +143,12 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
 
             </div>
 
-            <h1 className="text-[16px] opacity-[0.8]">Active endpoints</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-[16px] opacity-[0.8]">Active endpoints</h1>
+                <Button className="h-[35px] w-[35px]">
+                    <Pencil />
+                </Button>
+            </div>
 
             <div className="flex flex-col gap-[6px]">
                 <div className="flex gap-[10px] items-center">
@@ -149,30 +165,34 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
                 </div>
             </div>
 
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button className="w-[100px] bg-[#FA003F] hover:bg-[red]">
-                        Delete
-                    </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Deleting your project will also remove the APIs from the service.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={async () => {
-                            if (!selectedProject) return;
-                            await deleteProject(selectedProject);
-                            removeProjectLocally(selectedProject.id);
-                            setDisplayScreen("projects");
-                        }}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <p className="text-center opacity-[0.8] text-[15px] leading-[1.2em] my-[10px]">LazyPing pings your endpoints every 15mins preventing cold starts</p>
 
+            <div className="mt-[40px] flex flex-col items-center">
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button className="w-[100px] bg-[#FA003F] hover:bg-[red]">
+                            Delete
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Deleting your project will also remove the APIs from the service.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={async () => {
+                                if (!selectedProject) return;
+                                await deleteProject(selectedProject);
+                                removeProjectLocally(selectedProject.id);
+                                setDisplayScreen("projects");
+                            }}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+                <p className="mt-[5px] text-[15px] opacity-[0.5]">Delete your project</p>
+            </div>
         </div >)
 }

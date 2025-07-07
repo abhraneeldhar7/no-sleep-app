@@ -21,21 +21,19 @@ export async function getUserDetails({ userId, email }: { userId?: string, email
 
 
 export async function createNewProject(newProj: projectType) {
-
-    const thUrl = await getRandomThumbnailUrl();
-    newProj.thumbnail_url = thUrl;
-
+    newProj.updated_at = Date.now();
     await supabase.from("projects").insert(newProj);
     return (newProj)
 }
 
 export async function getUserProjects(userId: string) {
-    const { data: res } = await supabase.from("projects").select("*").eq("owner_id", userId);
+    const { data: res } = await supabase.from("projects").select("*").eq("owner_id", userId).order("updated_at", { ascending: false });
 
     return JSON.parse(JSON.stringify(res))
 }
 
 export async function saveProjectDetails(projectDetails: projectType) {
+    projectDetails.updated_at = Date.now();
     const { data: res } = await supabase.from("projects").update(projectDetails).eq("id", projectDetails.id).eq("owner_id", projectDetails.owner_id)
     return JSON.parse(JSON.stringify(res))
 }

@@ -81,6 +81,7 @@ export default function DashboardPage() {
                                 name: "",
                                 description: "",
                                 created_at: Date.now(),
+                                updated_at: Date.now(),
                                 owner_id: userDetails.user_id,
                                 thumbnail_url: null
                             }
@@ -101,25 +102,27 @@ export default function DashboardPage() {
                 </Tooltip>
             </div>
 
-            {existingProjects === null &&
+            {
+                existingProjects === null &&
                 <div className="w-[100%] h-[100px] flex items-center justify-center"><LoaderCircle size={40} className="animate-spin" /></div>
             }
             <div className={styles.projHolder}>
-                {existingProjects?.map((proj, index) => (
-                    <div className=" flex flex-col max-w-[500px]" key={index} onClick={() => {
-                        setSelectedProject(proj);
-                        setDisplayScreen("apiEndpoints");
-                    }}>
-                        <Image height={200} width={400} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={proj.thumbnail_url || "https://dzfgvcvebulrzwdvsvlv.supabase.co/storage/v1/object/public/default-thumbnails//87fba9cd53dbb0dea2f1b89b3d2a45cd.jpg"} alt="" unoptimized />
-                        <h1 className="ml-[10px] mt-[2px] text-[18px] ">{proj.name}</h1>
-                    </div>
-                ))}
+                {existingProjects?.slice() 
+                    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()).map((proj, index) => (
+                        <div className=" flex flex-col max-w-[500px]" key={index} onClick={() => {
+                            setSelectedProject(proj);
+                            setDisplayScreen("apiEndpoints");
+                        }}>
+                            <Image height={200} width={400} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={proj.thumbnail_url || "https://dzfgvcvebulrzwdvsvlv.supabase.co/storage/v1/object/public/default-thumbnails//87fba9cd53dbb0dea2f1b89b3d2a45cd.jpg"} alt="" unoptimized />
+                            <h1 className="ml-[10px] mt-[2px] text-[18px] ">{proj.name}</h1>
+                        </div>
+                    ))}
                 <div></div>
                 <div></div>
             </div>
 
 
-        </div>)
+        </div >)
     }
     const NewProjectDisplay = () => {
         const [newProjectLoader, setnewProjectLoader] = useState(false);

@@ -1,4 +1,3 @@
-
 import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { v4 as uuidv4 } from "uuid";

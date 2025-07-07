@@ -11,5 +11,6 @@ export interface projectType {
     name: string,
     description: string,
     created_at: number,
-    thumbnail_url: string | null
+    updated_at: number,
+    thumbnail_url: string | null,
 }

@@ -58,8 +58,10 @@
     margin: 0px 10px;
     border: 2px solid rgba(0, 0, 0, 0.4);
     border-radius: 10px;
-    background-color: #fffafa;
     min-height: 80vh;
+
+    background: #ffffff;
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 12%, rgba(235, 235, 235, 1) 100%);
 }
 
 
