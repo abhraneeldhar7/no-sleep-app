@@ -44,7 +44,7 @@ export default function Home() {
               </Link>
             }
             {!session &&
-              <Button onClick={() => { signIn("google") }}>Sign in</Button>}
+              <Button onClick={() => { signIn("google",{ callbackUrl: '/dashboard' }) }}>Sign in</Button>}
 
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function Home() {
           </Link>
         }
         {!session &&
-          <Button onClick={() => { signIn("google") }}>
+          <Button onClick={() => { signIn("google",{ callbackUrl: '/dashboard' }) }}>
             Activate
             <ArrowUp />
           </Button>
