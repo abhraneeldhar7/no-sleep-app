@@ -6,8 +6,6 @@ import { userType } from "@/lib/types";
 import { getUserDetails } from "@/app/actions/supabaseFunctions";
 import { supabase } from "@/utils/supabase/client";
 
-
-
 export const options: NextAuthOptions = {
 
   providers: [

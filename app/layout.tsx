@@ -6,7 +6,7 @@ import InitPage from "@/components/initPage";
 
 
 export const metadata: Metadata = {
-  title: "noCoffee",
+  title: "LazyPing",
   description: "Prevents cold starts, doesn't let your free tier apps sleep",
 };
 
