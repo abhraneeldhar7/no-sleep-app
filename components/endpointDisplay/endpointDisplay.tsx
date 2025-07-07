@@ -88,7 +88,7 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
             {!editMode &&
                 <div className="flex flex-col gap-[5px]">
                     <div className="flex gap-[10px] flex-wrap">
-                        <p className="text-[20px] text-[white] bg-[#1778FB] w-[fit-content] px-[10px] rounded-[20px] flex items-center">{selectedProject?.name}</p>
+                        <p className="text-[20px] text-[white] bg-[#1778FB] w-[fit-content] px-[15px] rounded-[20px] flex items-center">{selectedProject?.name}</p>
                         <Button variant="outline" className="rounded-[50%] h-[40px] w-[40px]" onClick={() => { setEditMode(true) }}>
                             <Pencil />
                         </Button>

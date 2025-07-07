@@ -37,6 +37,8 @@ export default function DashboardPage() {
 
 
     const [existingProjects, setExistingProjects] = useState<projectType[] | null>(null)
+
+
     useEffect(() => {
         const init = async () => {
             if (!userDetails || existingProjects) return
@@ -116,10 +118,12 @@ export default function DashboardPage() {
                             <Image height={200} width={400} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={proj.thumbnail_url || "https://dzfgvcvebulrzwdvsvlv.supabase.co/storage/v1/object/public/default-thumbnails//87fba9cd53dbb0dea2f1b89b3d2a45cd.jpg"} alt="" unoptimized />
                             <div className="flex flex-col gap-[2px]">
                                 <h1 className="ml-[15px] mt-[5px] text-[22px] max-h-[2.5em] overflow-y-hidden leading-[27px]">{proj.name}</h1>
-                                <div className="ml-[15px] text-[14px] flex items-center gap-[5px] ">
+
+                                {/* <div className="ml-[15px] text-[14px] flex items-center gap-[5px] ">
                                     <Circle size={10} color="#10B981" fill="#10B981" />
                                     <p className="leading-[1.2em] opacity-[0.6]">Last pinged {""}</p>
-                                </div>
+                                </div> */}
+                            
                             </div>
                         </div>
                     ))}
