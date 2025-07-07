@@ -99,7 +99,6 @@ export async function pingEndpoint(endpoint: endpointType) {
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/91.0.4472.114 Safari/537.36",
         "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 Chrome/88.0.4324.150 Safari/537.36",
     ];
-
     const acceptLanguages = [
         "en-US,en;q=0.9",
         "en-GB,en;q=0.8",
@@ -121,9 +120,19 @@ export async function pingEndpoint(endpoint: endpointType) {
             "Connection": "keep-alive",
         };
     }
+    function sleep(ms: number) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    function getRandomDelay(min = 20, max = 1000): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
+    const delay = getRandomDelay();
+    console.log(`⏱️ Waiting ${delay}ms before pinging ${endpoint.url}`);
+    await sleep(delay);
+    const headers = getRandomHeaders();
     try {
-        const headers = getRandomHeaders();
+
         const res = await fetch(endpoint.url, { method: "GET", cache: "no-store", headers });
         makeLog({
             url: endpoint.url,
