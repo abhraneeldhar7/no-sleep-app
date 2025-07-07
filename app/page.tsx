@@ -2,7 +2,7 @@
 import Image from "next/image";
 import styles from "./rootPage.module.css"
 import grad from "../public/artistic-blurry-colorful-wallpaper-background.jpg"
-import { ArrowUp, CircleCheck, Sun } from "lucide-react";
+import { ArrowUp, CircleCheck, LoaderCircle, Sun } from "lucide-react";
 import auranetLogo from "../public/signatureLogoSimple.jpg"
 import Link from "next/link";
 import Footer from "@/components/footer";
@@ -13,10 +13,12 @@ import glasspanebg from "../public/blurglasspane.jpg"
 import { getServerSession } from "next-auth";
 import { options } from "./api/auth/[...nextauth]/options";
 import { signIn, useSession } from "next-auth/react";
+import { useState } from "react";
 
 
 export default function Home() {
   const { data: session } = useSession();
+  const [signinLoader, setSinginLoader] = useState(false);
   return (
     <div className={styles.main}>
       <div className={styles.tabMain}>
@@ -44,8 +46,10 @@ export default function Home() {
               </Link>
             }
             {!session &&
-              <Button onClick={() => { signIn("google",{ callbackUrl: '/dashboard' }) }}>Sign in</Button>}
-
+              <Button loading={signinLoader} onClick={() => {
+                setSinginLoader(true);
+                signIn("google", { callbackUrl: '/dashboard' })
+              }}>Sign in</Button>}
           </div>
         </div>
       </div>
@@ -64,8 +68,16 @@ export default function Home() {
             </Button>
           </Link>
         }
-        {!session &&
-          <Button onClick={() => { signIn("google",{ callbackUrl: '/dashboard' }) }}>
+        {signinLoader &&
+          <div className={styles.loadingBtn}>
+            <LoaderCircle className="animate-spin" />
+          </div>
+        }
+        {!session && !signinLoader &&
+          <Button onClick={() => {
+            setSinginLoader(true);
+            signIn("google", { callbackUrl: '/dashboard' })
+          }}>
             Activate
             <ArrowUp />
           </Button>
@@ -94,7 +106,7 @@ export default function Home() {
                 </Link>
               }
               {!session &&
-                <Button onClick={()=>{signIn()}}>
+                <Button onClick={() => { signIn() }}>
                   Choose this plan
                 </Button>
               }

@@ -1,18 +1,19 @@
 "use client"
 
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import styles from "./endpoint.module.css"
 import { Button } from "../ui/button";
-import { Check, ChevronLeft, Pencil, Rss, Wifi } from "lucide-react";
+import { Check, ChevronLeft, LoaderCircle, Pencil, Rss, Trash2, Wifi } from "lucide-react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { projectType } from "@/lib/types";
-import { deleteProject, saveProjectDetails } from "@/app/actions/supabaseFunctions";
+import { endpointType, projectType } from "@/lib/types";
+import { addProjectEndpoint, deleteProject, deleteProjectEndpoint, getProjectEndpoints, saveProjectDetails, updateProjectEndpoint } from "@/app/actions/supabaseFunctions";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
 import { Switch } from "../ui/switch";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
-
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { v4 as uuidv4 } from "uuid";
 
 export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, upsertProject, removeProjectLocally }: {
     initSelectedProject: projectType | null,
@@ -26,13 +27,54 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const [editMode, setEditMode] = useState(false);
 
-    const newAPIurlRef = useRef<HTMLInputElement>(null);
+    const [newAPIurl, setNewApiUrl] = useState<string | null>(null);
     const newProjectNameRef = useRef<HTMLInputElement>(null)
     const newProjectDescRef = useRef<HTMLTextAreaElement>(null)
 
     const [apiResponse, setapiResponse] = useState<string | null>(null)
 
     const [selectedProject, setSelectedProject] = useState(initSelectedProject);
+    const [fetchLoader, setFetchLoader] = useState(false);
+    const [addingEndpointLoader, setaddingEndpointLoader] = useState(false);
+
+    const [projectEndpointsArray, setProjectEndpointsArray] = useState<endpointType[] | null>(null);
+
+
+    function upsertEndpoint(newEndpoint: endpointType) {
+        setProjectEndpointsArray((prev) => {
+            if (!prev) return [newEndpoint];
+
+            const index = prev.findIndex(ep => ep.id === newEndpoint.id);
+
+            if (index === -1) {
+                return [...prev, newEndpoint]; // insert
+            }
+
+            // update
+            const updated = [...prev];
+            updated[index] = { ...updated[index], ...newEndpoint };
+            return updated;
+        });
+    }
+    function removeEndpointLocally(endpointId: string) {
+        setProjectEndpointsArray((prev) => {
+            if (!prev) return prev;
+            return prev.filter(ep => ep.id !== endpointId);
+        });
+    }
+
+    useEffect(() => {
+        const initPage = async () => {
+            if (!selectedProject || projectEndpointsArray) return;
+            const res = await getProjectEndpoints(selectedProject.id);
+            setProjectEndpointsArray(res);
+            console.log(res)
+        }
+        initPage();
+    }, [])
+
+
+    const [editEndpoint, setEditEndpoint] = useState(false);
 
     return (
         <div className={styles.projectEndpointDisplay}>
@@ -114,59 +156,142 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
             {selectedProject?.thumbnail_url &&
                 <Image height={200} width={300} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={selectedProject.thumbnail_url} alt="" unoptimized />
             }
-            <div className="flex gap-[10px] items-center">
-                <Input className="h-[40px]" placeholder="https://avengers-tower.stark/api/v1/threats/" ref={newAPIurlRef} />
-                <Button className="h-[40px] w-[40px]" variant="secondary" onClick={async () => {
-                    if (!newAPIurlRef.current) return;
-                    const apiUrl = newAPIurlRef.current.value.trim();
-                    const res = await fetch(apiUrl, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Cache-Control': 'no-cache'
+
+            {(projectEndpointsArray && projectEndpointsArray.length < 5) &&
+                <div>
+                    <div className="flex gap-[10px] items-center">
+                        <Input className="h-[40px]" placeholder="https://avengers-tower.stark/api/v1/threats/" value={newAPIurl || ""} onChange={(e) => { setNewApiUrl(e.target.value.trim()) }} spellCheck={false} />
+
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button loading={fetchLoader} className={`${newAPIurl?.length ? "bg-[black] text-[white]" : ""} h-[40px] w-[40px]`} variant="outline" onClick={async () => {
+                                    if (!newAPIurl?.length) return;
+                                    setFetchLoader(true);
+                                    try {
+                                        const res = await fetch(newAPIurl, {
+                                            method: 'GET',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Cache-Control': 'no-cache'
+                                            }
+                                        });
+                                        const apiRes = await res.json()
+                                        setapiResponse(apiRes);
+                                    }
+                                    catch (error) {
+                                        console.log(error)
+                                    }
+                                    setFetchLoader(false);
+                                }}>
+                                    <Rss />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                Test connectivity
+                            </TooltipContent>
+                        </Tooltip>
+
+
+                    </div>
+                    <Button disabled={(projectEndpointsArray != null && (projectEndpointsArray.length >= 5))} loading={addingEndpointLoader} className={`${newAPIurl?.length ? "bg-[#10B981] text-[white]" : ""} w-[100%]`} variant="outline" onClick={async () => {
+                        if (!selectedProject || !newAPIurl?.length || projectEndpointsArray === null) return;
+
+                        if (projectEndpointsArray.length >= 5) {
+                            return;
                         }
-                    });
-                    const apiRes = await res.json()
-                    setapiResponse(apiRes);
-                }}>
-                    <Rss />
-                </Button>
-            </div>
-            <Button className="bg-[#10B981] w-[100%]" >
-                Add to endpoints
-            </Button>
-            <div className="flex flex-col gap-[10px]">
-                <h1 className="text-[16px] opacity-[0.8]">Response</h1>
-                <ScrollArea className={styles.responseDiv}>
-                    {JSON.stringify(apiResponse)}
-                </ScrollArea>
+                        const newEndpoint: endpointType = {
+                            id: uuidv4(),
+                            project_id: selectedProject.id,
+                            url: newAPIurl,
+                            active: true,
+                            created_at: Date.now(),
+                            updated_at: Date.now()
+                        }
 
-            </div>
+                        setaddingEndpointLoader(true);
+                        await addProjectEndpoint(newEndpoint);
+                        upsertEndpoint(newEndpoint);
+                        setNewApiUrl(null)
+                        setaddingEndpointLoader(false);
 
-            <div className="flex justify-between items-center">
-                <h1 className="text-[16px] opacity-[0.8]">Active endpoints</h1>
-                <Button className="h-[35px] w-[35px]">
-                    <Pencil />
-                </Button>
-            </div>
+                    }}>
+                        Add to endpoints
+                    </Button>
 
-            <div className="flex flex-col gap-[6px]">
-                <div className="flex gap-[10px] items-center">
-                    <Input className="h-[40px]" defaultValue="https://avengers-tower.stark" />
-                    <Switch />
+
+
+                    <div className="flex flex-col gap-[10px]">
+                        <h1 className="text-[16px] opacity-[0.8]">Response</h1>
+                        <ScrollArea className={styles.responseDiv}>
+                            {!fetchLoader && JSON.stringify(apiResponse)}
+                            {fetchLoader &&
+                                <div className="h-[100%] w-[100%] flex items-center justify-center">
+                                    <LoaderCircle size={30} className="animate-spin" />
+                                </div>
+                            }
+                        </ScrollArea>
+
+                    </div>
+                </div>}
+
+
+            {projectEndpointsArray && projectEndpointsArray.length > 0 && <div>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-[16px] opacity-[0.8]">Active endpoints</h1>
+                    {!editEndpoint && <Button onClick={() => { setEditEndpoint(true) }} className="h-[35px] w-[35px]">
+                        <Pencil />
+                    </Button>}
+                    {editEndpoint && <Button variant="outline" onClick={() => { setEditEndpoint(false) }} className="h-[35px] w-[35px] bg-[#10B981] text-[white]">
+                        <Check />
+                    </Button>}
                 </div>
-                <div className="flex gap-[10px] items-center">
-                    <Input className="h-[40px]" defaultValue="https://avengers-tower.stark" />
-                    <Switch />
+
+                <div className="flex flex-col gap-[6px] mt-[5px]">
+                    {projectEndpointsArray === null &&
+                        <div className="h-[100%] w-[100%] flex items-center justify-center">
+                            <LoaderCircle size={30} className="animate-spin" />
+                        </div>
+                    }
+                    {projectEndpointsArray?.map((endpoint) => (
+                        <div className="flex gap-[10px] items-center" key={endpoint.id}>
+                            <Input
+                                contentEditable={false}
+                                disabled={!endpoint.active}
+                                className="h-[40px]"
+                                value={endpoint.url}
+                                onChange={() => { }}
+                            />
+                            {!editEndpoint &&
+                                <Switch
+                                    checked={endpoint.active}
+                                    onCheckedChange={(checked) => {
+                                        setProjectEndpointsArray((prev) => {
+                                            if (!prev) return prev;
+                                            const updatedList = prev.map((ep) => {
+                                                if (ep.id === endpoint.id) {
+                                                    const updated = { ...ep, active: checked };
+                                                    updateProjectEndpoint(updated);
+                                                    return updated;
+                                                }
+                                                return ep;
+                                            });
+                                            return updatedList;
+                                        });
+                                    }} />}
+                            {editEndpoint &&
+                                <Button variant="destructive" className="h-[35px] w-[35px] p-[6]" onClick={async () => {
+                                    deleteProjectEndpoint(endpoint.id);
+                                    removeEndpointLocally(endpoint.id);
+                                }}>
+                                    <Trash2 />
+                                </Button>
+                            }
+                        </div>
+                    ))}
                 </div>
-                <div className="flex gap-[10px] items-center">
-                    <Input className="h-[40px]" defaultValue="https://avengers-tower.stark" />
-                    <Switch />
-                </div>
-            </div>
+            </div>}
 
             <p className="text-center opacity-[0.8] text-[15px] leading-[1.2em] my-[10px]">LazyPing pings your endpoints every 15mins preventing cold starts</p>
-
             <div className="mt-[40px] flex flex-col items-center">
                 <AlertDialog>
                     <AlertDialogTrigger asChild>

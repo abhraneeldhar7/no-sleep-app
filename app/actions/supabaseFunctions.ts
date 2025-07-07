@@ -1,5 +1,5 @@
 "use server"
-import { projectType } from "@/lib/types";
+import { endpointType, projectType } from "@/lib/types";
 import { supabase } from "@/utils/supabase/client";
 import { createClient } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
@@ -65,4 +65,29 @@ export async function deleteProject(projectDetails: projectType) {
         .from('projects')
         .delete()
         .eq('id', projectDetails.id)
+}
+
+
+
+export async function getProjectEndpoints(project_id: string) {
+    const { data: res, error } = await supabase.from("endpoints").select().eq("project_id", project_id);
+    if (res) {
+        return JSON.parse(JSON.stringify(res));
+    }
+    else {
+        return null;
+    }
+}
+
+export async function addProjectEndpoint(endpoint: endpointType) {
+    await supabase.from("endpoints").insert(endpoint);
+}
+
+export async function deleteProjectEndpoint(id: string) {
+    await supabase.from("endpoints").delete().eq("id", id)
+
+}
+
+export async function updateProjectEndpoint(endpoint: endpointType) {
+    await supabase.from("endpoints").update(endpoint).eq("id", endpoint.id);
 }

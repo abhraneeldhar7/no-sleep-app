@@ -14,3 +14,13 @@ export interface projectType {
     updated_at: number,
     thumbnail_url: string | null,
 }
+
+
+export interface endpointType {
+    id: string,
+    project_id: string,
+    url: string,
+    active: boolean,
+    created_at: number,
+    updated_at: number
+}
