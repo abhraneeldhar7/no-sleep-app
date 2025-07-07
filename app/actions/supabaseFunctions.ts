@@ -128,11 +128,10 @@ export async function pingEndpoint(endpoint: endpointType) {
     }
 
     const delay = getRandomDelay();
-    console.log(`⏱️ Waiting ${delay}ms before pinging ${endpoint.url}`);
+    // console.log(`⏱️ Waiting ${delay}ms before pinging ${endpoint.url}`);
     await sleep(delay);
     const headers = getRandomHeaders();
     try {
-
         const res = await fetch(endpoint.url, { method: "GET", cache: "no-store", headers });
         makeLog({
             url: endpoint.url,
@@ -154,6 +153,5 @@ export async function makeLog({ url, project_id, status_code }: { url: string, p
         url: url,
         timestamp: Date.now(),
     }
-    const { error } = await supabase.from("logs").insert(newLog);
-    console.log(error)
+    await supabase.from("logs").insert(newLog);
 }

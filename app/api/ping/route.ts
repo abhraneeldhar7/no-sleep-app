@@ -32,7 +32,13 @@ export async function GET() {
 
   // 3. Fire-and-forget async pings
   endpointsToPing.forEach((endpoint) => {
-    pingEndpoint(endpoint);
+    // pingEndpoint(endpoint);
+
+    fetch(`${process.env.NEXTAUTH_URL}/api/ping/worker`, {
+      method: "POST",
+      body: JSON.stringify(endpoint),
+      headers: { "Content-Type": "application/json" }
+    });
   });
 
   return NextResponse.json({ msg: "Pinging initiated", total: endpointsToPing.length });
