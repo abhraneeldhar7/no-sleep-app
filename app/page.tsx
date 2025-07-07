@@ -85,6 +85,32 @@ export default function Home() {
       </div>
 
 
+      <div className="mt-[30px]">
+        <div className={styles.howToUseDiv}>
+          <div className="flex-1 min-w-[300px]">
+            <h1 className="text-[35px] font-[Inter] text-center">How to use?</h1>
+            <p className="mx-[10px]">Create an account and go to your dashboard.
+              You can add upto 10 projects.<br />
+              Give your projects a name and description(optional).<br />
+              Projects can be identified by their unique names and default thumbnails.<br />
+              If this app crosses 100 users, I will add custom thumbnail support.
+            </p>
+          </div>
+          <div className="flex-1">
+            a
+          </div>
+          {/* <Image src={} alt=""/> */}
+
+
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+
+
+
       <div className={styles.subsCardsDiv}>
         <h1 className="text-[35px] font-[Inter] mx-auto">Plans & Pricing</h1>
 

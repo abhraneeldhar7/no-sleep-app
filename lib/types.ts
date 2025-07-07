@@ -24,3 +24,11 @@ export interface endpointType {
     created_at: number,
     updated_at: number
 }
+
+export interface apiLog {
+    id: string,
+    project_id: string,
+    url: string,
+    timestamp: number,
+    status_code: number,
+}

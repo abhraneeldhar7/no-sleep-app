@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./db.module.css"
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronLeft, ChevronsUpDown, LoaderCircle, LogOut, Pencil, Plus, Sun } from "lucide-react";
+import { ChevronLeft, ChevronsUpDown, Circle, Dot, LoaderCircle, LogOut, Pencil, Plus, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import auranetLogo from "../../public/signatureLogoSimple.jpg"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -97,7 +97,7 @@ export default function DashboardPage() {
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        Click here dumbass
+                        Click here
                     </TooltipContent>
                 </Tooltip>
             </div>
@@ -107,14 +107,20 @@ export default function DashboardPage() {
                 <div className="w-[100%] h-[100px] flex items-center justify-center"><LoaderCircle size={40} className="animate-spin" /></div>
             }
             <div className={styles.projHolder}>
-                {existingProjects?.slice() 
+                {existingProjects?.slice()
                     .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()).map((proj, index) => (
                         <div className=" flex flex-col max-w-[500px]" key={index} onClick={() => {
                             setSelectedProject(proj);
                             setDisplayScreen("apiEndpoints");
                         }}>
                             <Image height={200} width={400} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={proj.thumbnail_url || "https://dzfgvcvebulrzwdvsvlv.supabase.co/storage/v1/object/public/default-thumbnails//87fba9cd53dbb0dea2f1b89b3d2a45cd.jpg"} alt="" unoptimized />
-                            <h1 className="ml-[10px] mt-[2px] text-[18px] ">{proj.name}</h1>
+                            <div className="flex flex-col gap-[2px]">
+                                <h1 className="ml-[15px] mt-[5px] text-[22px] max-h-[2.5em] overflow-y-hidden leading-[27px]">{proj.name}</h1>
+                                <div className="ml-[15px] text-[14px] flex items-center gap-[5px] ">
+                                    <Circle size={10} color="#10B981" fill="#10B981" />
+                                    <p className="leading-[1.2em] opacity-[0.6]">Last pinged {""}</p>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 <div></div>

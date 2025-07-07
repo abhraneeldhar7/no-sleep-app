@@ -1,7 +1,6 @@
 "use server"
-import { endpointType, projectType } from "@/lib/types";
+import { apiLog, endpointType, projectType } from "@/lib/types";
 import { supabase } from "@/utils/supabase/client";
-import { createClient } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -90,4 +89,62 @@ export async function deleteProjectEndpoint(id: string) {
 
 export async function updateProjectEndpoint(endpoint: endpointType) {
     await supabase.from("endpoints").update(endpoint).eq("id", endpoint.id);
+}
+
+
+export async function pingEndpoint(endpoint: endpointType) {
+    const userAgents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/15.1 Safari/605.1.15",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/91.0.4472.114 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 Chrome/88.0.4324.150 Safari/537.36",
+    ];
+
+    const acceptLanguages = [
+        "en-US,en;q=0.9",
+        "en-GB,en;q=0.8",
+        "en;q=0.7",
+        "en-US;q=0.6,en;q=0.4",
+    ];
+    function getRandomHeaders() {
+        const userAgent =
+            userAgents[Math.floor(Math.random() * userAgents.length)];
+        const acceptLanguage =
+            acceptLanguages[Math.floor(Math.random() * acceptLanguages.length)];
+
+        return {
+            "User-Agent": userAgent,
+            "Accept":
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": acceptLanguage,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+        };
+    }
+
+    try {
+        const headers = getRandomHeaders();
+        const res = await fetch(endpoint.url, { method: "GET", cache: "no-store", headers });
+        makeLog({
+            url: endpoint.url,
+            project_id: endpoint.project_id,
+            status_code: res.status,
+        })
+        console.log(`✅ Pinged: ${endpoint.url}`);
+    } catch (error) {
+        console.log(`❌ Failed to ping: ${endpoint.url}`);
+    }
+}
+
+
+export async function makeLog({ url, project_id, status_code }: { url: string, project_id: string, status_code: number }) {
+    const newLog: apiLog = {
+        id: uuidv4(),
+        project_id: project_id,
+        status_code: status_code,
+        url: url,
+        timestamp: Date.now(),
+    }
+    const { error } = await supabase.from("logs").insert(newLog);
+    console.log(error)
 }
