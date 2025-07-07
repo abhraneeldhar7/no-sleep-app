@@ -158,7 +158,7 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
             }
 
             {(projectEndpointsArray && projectEndpointsArray.length < 5) &&
-                <div>
+                <div className="flex flex-col gap-[10px]">
                     <div className="flex gap-[10px] items-center">
                         <Input className="h-[40px]" placeholder="https://avengers-tower.stark/api/v1/threats/" value={newAPIurl || ""} onChange={(e) => { setNewApiUrl(e.target.value.trim()) }} spellCheck={false} />
 
