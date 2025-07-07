@@ -3,50 +3,95 @@ import Link from "next/link";
 import styles from "./db.module.css"
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronLeft, ChevronsUpDown, LoaderCircle, LogOut, Plus, Sun } from "lucide-react";
+import {  ChevronLeft, ChevronsUpDown, LoaderCircle, LogOut, Pencil, Plus, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import auranetLogo from "../../public/signatureLogoSimple.jpg"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import {  signOut, useSession } from "next-auth/react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { testingSB } from "../actions/test";
-import { getUserDetails } from "../actions/supabaseFunctions";
+
+import { createNewProject,  getRandomThumbnailUrl, getUserProjects } from "../actions/supabaseFunctions";
 import { useStore } from "@/lib/store";
 import { projectType } from "@/lib/types";
 import Footer from "@/components/footer";
+import { v4 as uuidv4 } from "uuid";
+import { ProjectEndpointDisplay } from "@/components/endpointDisplay/endpointDisplay";
+
 
 export default function DashboardPage() {
     const [displayScreen, setDisplayScreen] = useState<"projects" | "newProject" | "apiEndpoints">("projects");
 
 
-    const [showTooltip, setTooltip] = useState(true);
-    const { data: session } = useSession();
 
     const userDetails = useStore((state) => state.userDetails);
 
     const [newProjectDetails, setnewProjectDetails] = useState<projectType | null>(null)
 
+
+    const [selectedProject, setSelectedProject] = useState<projectType | null>(null)
+
+    const newProjectNameRef = useRef<HTMLInputElement>(null)
+    const newProjectDescRef = useRef<HTMLTextAreaElement>(null)
+
+
+    const [existingProjects, setExistingProjects] = useState<projectType[] | null>(null)
     useEffect(() => {
-        setnewProjectDetails(null);
+        const init = async () => {
+            if (!userDetails || existingProjects) return
+            const res = await getUserProjects(userDetails.user_id)
+            setExistingProjects(res)
+            console.log(res)
+        }
+        init();
 
-    }, [displayScreen])
+    }, [userDetails])
 
-    const [newProjectLoader, setnewProjectLoader] = useState(false)
-
+    function upsertProject(newProjectDetails: projectType) {
+        setExistingProjects((prev) => {
+            if (!prev) return [newProjectDetails];
+            const index = prev.findIndex(p => p.id === newProjectDetails.id);
+            if (index === -1) {
+                return [...prev, newProjectDetails];
+            }
+            const updated = [...prev];
+            updated[index] = { ...updated[index], ...newProjectDetails };
+            return updated;
+        });
+    }
+    function removeProjectLocally(projectId: string) {
+        setExistingProjects((prev) => {
+            if (!prev) return prev;
+            return prev.filter(project => project.id !== projectId);
+        });
+    }
 
     const ProjectsDisplay = () => {
+        const [newProjectLoader, setnewProjectLoader] = useState(false)
         return (<div className={styles.projectsDisplay}>
             <div className="flex items-center gap-[10px]">
                 <h1 className="text-[26px]">Your projects</h1>
-                <Tooltip defaultOpen={showTooltip}>
+                <Tooltip >
                     <TooltipTrigger asChild>
-                        <Button className="h-[40px] w-[40px] p-[5px] rounded-[12px]" onClick={() => {
-                            setDisplayScreen("newProject")
-                            setTooltip(false)
+                        <Button loading={newProjectLoader} className="h-[40px] w-[40px] p-[5px] rounded-[12px]" onClick={async () => {
+                            if (!userDetails) return;
+                            setnewProjectLoader(true);
+                            let newProj: projectType = {
+                                id: uuidv4(),
+                                name: "",
+                                description: "",
+                                created_at: Date.now(),
+                                owner_id: userDetails.user_id,
+                                thumbnail_url: null
+                            }
+                            const thUrl = await getRandomThumbnailUrl();
+                            newProj.thumbnail_url = thUrl;
+
+                            setnewProjectDetails(newProj);
+
+                            setDisplayScreen("newProject");
+                            setnewProjectLoader(false);
                         }}>
                             <Plus size={20} />
                         </Button>
@@ -57,99 +102,87 @@ export default function DashboardPage() {
                 </Tooltip>
             </div>
 
+            <div className={styles.projHolder}>
+                {existingProjects?.map((proj, index) => (
+                    <div className=" flex flex-col max-w-[500px]" key={index} onClick={() => {
+                        setSelectedProject(proj);
+                        setDisplayScreen("apiEndpoints");
+                    }}>
+                        <Image height={200} width={400} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={proj.thumbnail_url || "https://dzfgvcvebulrzwdvsvlv.supabase.co/storage/v1/object/public/default-thumbnails//87fba9cd53dbb0dea2f1b89b3d2a45cd.jpg"} alt="" unoptimized />
+                        <h1 className="ml-[10px] mt-[2px] text-[18px] ">{proj.name}</h1>
+                    </div>
+                ))}
+                <div></div>
+                <div></div>
+            </div>
+
+
         </div>)
     }
     const NewProjectDisplay = () => {
+        const [newProjectLoader, setnewProjectLoader] = useState(false);
+        const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
         return (<div className={styles.newProjDisplay}>
             <Button className={styles.gobackBtn} onClick={() => { setDisplayScreen("projects") }}>
                 <ChevronLeft />
             </Button>
             <h1 className="text-[26px]">Add a new Project</h1>
 
+            {newProjectDetails?.thumbnail_url &&
+                <Image height={200} width={300} className="h-[250px] w-[100%] object-cover rounded-[10px] object-top" src={newProjectDetails.thumbnail_url} alt="" unoptimized />
+            }
+
             <div className="flex flex-col gap-[2px]">
                 <label className="text-[15px] opacity-[0.9]" htmlFor="newProjName">Project Name</label>
-                <Input id="newProjName" placeholder="Name of your project" defaultValue={newProjectDetails?.name || ""} onChange={(e) => {
-                    setnewProjectDetails(
-                        (newProjectDetails) => {
-                            if (!newProjectDetails) return newProjectDetails;
-                            return ({
-                                ...newProjectDetails,
-                                name: e.target.value
-                            })
-                        }
-                    )
-                }} />
+                <Input id="newProjName" placeholder="Name of your project" ref={newProjectNameRef} />
             </div>
             <div className="flex flex-col gap-[2px]">
                 <label className="text-[15px] opacity-[0.9]" htmlFor="newProjDesc">Project Descripion</label>
-                <Textarea id="newProjDesc" placeholder="Something to remind you what this project is about bcoz I'm not adding no thumbnail support" defaultValue={newProjectDetails?.description || ""} onChange={(e) => {
-                    setnewProjectDetails(
-                        (newProjectDetails) => {
-                            if (!newProjectDetails) return newProjectDetails;
-                            return ({
-                                ...newProjectDetails,
-                                description: e.target.value
-                            })
-                        })
-                }} />
+                <Textarea id="newProjDesc" placeholder="Something to remind you what this project is about bcoz I'm not adding no thumbnail support" ref={newProjectDescRef} />
             </div>
 
+            <p className="text-[red] text-right">{errorMsg}</p>
             <div className="flex gap-[10px] justify-end">
                 <Button variant="outline" onClick={() => { setDisplayScreen("projects") }}>
                     Cancel
                 </Button>
-                <Button loading={newProjectLoader} variant="outline" className="bg-[#10B981] text-[white]" onClick={() => { setDisplayScreen("apiEndpoints") }}>
+                <Button loading={newProjectLoader} variant="outline" className="bg-[#10B981] text-[white]" onClick={async () => {
+                    if (!newProjectNameRef.current || !newProjectDescRef.current) return;
+                    setErrorMsg(null);
+
+                    const projName = newProjectNameRef.current.value.trim();
+                    const projDesc = newProjectDescRef.current.value.trim();
+                    if (projName.length < 5 || projName.length > 30) {
+                        setErrorMsg("Name should be between 5 and 30 charecters");
+                        return;
+                    }
+                    if (projDesc.length > 100) {
+                        setErrorMsg("Description should be within 100 charecters");
+                        return;
+                    }
+
+                    setnewProjectLoader(true);
+                    let tempProjDetail = newProjectDetails;
+                    if (tempProjDetail) {
+                        tempProjDetail.name = projName;
+                        tempProjDetail.description = projDesc;
+                        await createNewProject(tempProjDetail);
+                        upsertProject(tempProjDetail);
+                    }
+                    setnewProjectLoader(false);
+                    setSelectedProject(tempProjDetail);
+                    setDisplayScreen("apiEndpoints");
+
+                }}>
                     Save
                 </Button>
             </div>
-        </div>)
+        </div >)
     }
 
 
-    const ProjectEndpointDisplay = () => {
-        return (
-            <div className={styles.projectEndpointDisplay}>
-                <Button className={styles.gobackBtn} onClick={() => { setDisplayScreen("projects") }}>
-                    <ChevronLeft />
-                </Button>
-                <h1 className={"text-[26px]"}>
-                    Add Endpoints
-                </h1>
 
-                <div className="flex gap-[10px] items-center">
-                    <Input className="h-[40px]" placeholder="https://avengers-tower.stark/api/v1/threats/" />
-                    <Button className="h-[40px] w-[40px] bg-[#10B981]">
-                        <Check />
-                    </Button>
-                </div>
-                <div className="flex flex-col gap-[10px]">
-                    <h1 className="text-[16px] opacity-[0.8]">Response</h1>
-                    <ScrollArea className={styles.responseDiv}>
-                        "hero": "Iron Man",
-                        "status": "Suiting up",
-                        "suitPower": 85
-                    </ScrollArea>
-
-                </div>
-
-                <h1 className="text-[16px] opacity-[0.8]">Active endpoints</h1>
-
-                <div className="flex flex-col gap-[6px]">
-                    <div className="flex gap-[10px] items-center">
-                        <Input className="h-[40px]" defaultValue="https://avengers-tower.stark" />
-                        <Switch />
-                    </div>
-                    <div className="flex gap-[10px] items-center">
-                        <Input className="h-[40px]" defaultValue="https://avengers-tower.stark" />
-                        <Switch />
-                    </div>
-                    <div className="flex gap-[10px] items-center">
-                        <Input className="h-[40px]" defaultValue="https://avengers-tower.stark" />
-                        <Switch />
-                    </div>
-                </div>
-            </div >)
-    }
 
     return (<div className={styles.main}>
         <div className={styles.tabMain}>
@@ -188,7 +221,7 @@ export default function DashboardPage() {
                 <NewProjectDisplay />
             }
             {displayScreen == "apiEndpoints" &&
-                <ProjectEndpointDisplay />
+                <ProjectEndpointDisplay setDisplayScreen={setDisplayScreen} removeProjectLocally={removeProjectLocally} upsertProject={upsertProject} initSelectedProject={selectedProject} />
             }
         </div>
 

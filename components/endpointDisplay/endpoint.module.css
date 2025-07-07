@@ -1,0 +1,42 @@
+.gobackBtn {
+    height: 40px;
+    width: 40px;
+    background-color: white;
+    color: black;
+    transition: all 0.3s;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+}
+
+.projectEndpointDisplay {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0px auto;
+    animation: fadeIn 0.2s ease-in;
+
+}
+
+.responseDiv {
+    font-size: 15px;
+    padding: 10px;
+    word-break: break-all;
+    white-space: normal;
+    background-color: rgb(234, 234, 234);
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-height: 150px;
+    height: 200px;
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

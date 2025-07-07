@@ -76,11 +76,19 @@
     background-color: rgb(247, 247, 247);
 }
 
-.projectsDisplay{
+.projectsDisplay {
     display: flex;
     flex-direction: column;
     gap: 10px;
     animation: fadeIn 0.2s ease-in;
+}
+
+.projHolder {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    row-gap: 10px;
+    margin-top: 10px;
 }
 
 .newProjDisplay {
@@ -109,10 +117,13 @@
 .responseDiv {
     font-size: 15px;
     padding: 10px;
+    word-break: break-all;
+    white-space: normal;
     background-color: rgb(234, 234, 234);
     border-radius: 10px;
     box-sizing: border-box;
     min-height: 150px;
+    height: 200px;
 }
 
 @keyframes fadeIn {
@@ -120,7 +131,7 @@
         opacity: 0;
     }
 
-    100%{
+    100% {
         opacity: 1;
     }
 }

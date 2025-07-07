@@ -10,5 +10,6 @@ export interface projectType {
     owner_id: string,
     name: string,
     description: string,
-    created_at:number
+    created_at: number,
+    thumbnail_url: string | null
 }
