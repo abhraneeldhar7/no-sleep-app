@@ -15,6 +15,9 @@ import { options } from "./api/auth/[...nextauth]/options";
 import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 
+import dashboardImg from "../public/dashboardImg.png"
+import addEndpointImg from "../public/addEndpointImg.png"
+import apiEditImg from "../public/apiEditImg.png"
 
 export default function Home() {
   const { data: session } = useSession();
@@ -85,28 +88,51 @@ export default function Home() {
       </div>
 
 
-      <div className="mt-[30px]">
+      <div className="mt-[30px] flex flex-col gap-[30px]">
         <div className={styles.howToUseDiv}>
           <div className="flex-1 min-w-[300px]">
             <h1 className="text-[35px] font-[Inter] text-center">How to use?</h1>
             <p className="mx-[10px]">Create an account and go to your dashboard.
-              You can add upto 10 projects.<br />
-              Give your projects a name and description(optional).<br />
-              Projects can be identified by their unique names and default thumbnails.<br />
-              If this app crosses 100 users, I will add custom thumbnail support.
+              Sign up, boom you're in the dashboard. <br />From there? Add up to 10 projects like a boss. Give 'em cool names, drop in some spicy descriptions or don't, who's stopping you? Each project shows up with a shiny default thumbnail so you always know what's what.<br /> And get this once we hit 100 users, custom thumbnails go live. No fees, no nonsense, no begging for premium. Just good ol' feature drops, served hot.
             </p>
           </div>
           <div className="flex-1">
-            a
+            <Image className="rounded-[6px] w-[100%] object-contain min-w-[300px]" src={dashboardImg} alt="" unoptimized />
           </div>
-          {/* <Image src={} alt=""/> */}
-
-
         </div>
 
-        <div>
+        <div className={styles.addApiDiv}>
+          <div className="flex-1">
+            <Image className="rounded-[6px] w-[100%] h-[450px] object-contain min-w-[300px]" src={addEndpointImg} alt="" unoptimized />
+          </div>
 
+          <div className="flex-1 min-w-[300px] my-auto">
+            <h1 className="text-[35px] font-[Inter] text-center">Add your endpoints</h1>
+            <p className="mx-[10px]">Add 5 endpoints to your project , and we'll ping one of 'em every 10 minutes. Just one, picked at random.
+              <br />
+              Why? Because hammering all five like a bot every 10 minutes is a one-way ticket to rate-limiting hell. But random? Random is beautiful. Random flies under the radar.
+              <br />
+              It's smart, it's sneaky, and it keeps your project looking alive without triggering every firewall from here to Silicon Valley.
+              <br />
+              You want clean uptime and no suspicion? This is how the game's played. Something not working? Ping me on Twitter, I'll know before the logs do.
+            </p>
+          </div>
         </div>
+
+        <div className={styles.editApiDiv}>
+          <div className="flex-1 min-w-[300px] my-[auto]">
+            <h1 className="text-[35px] font-[Inter] text-center">Point to note</h1>
+            <p className="mx-[10px]">I made LazyPing for students without credit cards to showcase their potential using free-tier hosting.<br />
+              So only activate the API endpoints you're currently showcasing and want to maintain with a good reputation — since cold starts can take up to 1 minute. You don't want to attach a project link to your resume where the recruiter has to stare at a blank screen for a full minute.<br />
+              So if you try to circumvent the project and API limits using multiple accounts... well, spamming someone with public URLs of your projects isn't exactly the smartest move.
+            </p>
+          </div>
+          <div className="flex-1">
+            <Image className="rounded-[6px] w-[100%] object-contain min-w-[300px]max-w-[400px]" src={apiEditImg} alt="" unoptimized />
+          </div>
+        </div>
+
+
       </div>
 
 

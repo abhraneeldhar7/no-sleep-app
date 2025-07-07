@@ -291,7 +291,7 @@ export const ProjectEndpointDisplay = ({ initSelectedProject, setDisplayScreen, 
                 </div>
             </div>}
 
-            <p className="text-center opacity-[0.8] text-[15px] leading-[1.2em] my-[10px]">LazyPing pings your endpoints every 15mins preventing cold starts</p>
+            <p className="text-center opacity-[0.8] text-[15px] leading-[1.2em] my-[10px]">LazyPing pings your endpoints every 10mins preventing cold starts</p>
             <div className="mt-[40px] flex flex-col items-center">
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
