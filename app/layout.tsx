@@ -11,7 +11,13 @@ export const metadata = {
     "LazyPing helps students and indie devs keep their free-tier APIs warm without triggering bot detection. Add endpoints, get random pings every 10 minutes, and stay alive — the clever way.",
   keywords: [
     "LazyPing",
+    "api",
+    "free hosting",
     "API ping tool",
+    "cold start",
+    "render cold start",
+    "render free tier",
+    "free-tier",
     "cold start prevention",
     "free tier uptime",
     "ping scheduler",
@@ -21,8 +27,8 @@ export const metadata = {
   ],
   authors: [{ name: "Abhraneel Dhar", url: "https://abhraneeldhar.vercel.app" }],
   creator: "Abhraneel Dhar",
-  metadataBase: new URL("https://abhraneeldhar.vercel.app"), 
- 
+  metadataBase: new URL("https://abhraneeldhar.vercel.app"),
+
   openGraph: {
     title: "LazyPing — Keep Your APIs Warm Without Triggering Bots",
     description:
@@ -31,7 +37,7 @@ export const metadata = {
     siteName: "LazyPing",
     images: [
       {
-        url: `${process.env.NEXTAUTH_URL}/opengraph-image.png`,
+        url: `https://lazyping.vercel.app/opengraph-image.png`,
         width: 1200,
         height: 630,
         alt: "LazyPing",
@@ -44,8 +50,9 @@ export const metadata = {
     card: "summary_large_image",
     title: "LazyPing",
     description: "Prevents cold starts, doesn't let your free tier apps sleep",
-    images: [`${process.env.NEXTAUTH_URL}/opengraph-image.png`],
+    images: [`https://lazyping.vercel.app/opengraph-image.png`],
     creator: "@abhraneeldhar",
+
   },
   themeColor: "#000000",
   robots: {
