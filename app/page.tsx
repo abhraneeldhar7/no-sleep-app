@@ -88,7 +88,7 @@ export default function Home() {
       </div>
 
 
-      <div className="mt-[30px] flex flex-col gap-[30px]">
+      <div className="mt-[30px] flex flex-col gap-[50px]">
         <div className={styles.howToUseDiv}>
           <div className="flex-1 min-w-[300px]">
             <h1 className="text-[35px] font-[Inter] text-center">How to use?</h1>
@@ -128,7 +128,7 @@ export default function Home() {
             </p>
           </div>
           <div className="flex-1">
-            <Image className="rounded-[6px] w-[100%] object-contain min-w-[300px]max-w-[400px]" src={apiEditImg} alt="" unoptimized />
+            <Image className="rounded-[6px] w-[100%] object-contain min-w-[300px]" src={apiEditImg} alt="" unoptimized />
           </div>
         </div>
 
