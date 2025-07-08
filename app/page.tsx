@@ -123,9 +123,9 @@ export default function Home() {
 
         {session && (
           <Link href="/dashboard">
-            <Button className="group text-[28px] rounded-[40px] bg-primary text-primary-foreground p-[5px_20px] h-[50px] transition-all duration-[0.2s] mt-[20px] flex text-center items-center gap-[0px] min-w-[100px] hover:scale-105">
+            <Button className="group text-[28px] rounded-[40px] bg-primary text-primary-foreground p-[5px_250px] h-[50px] transition-all duration-[0.2s] mt-[20px] flex text-center items-center gap-[0px] min-w-[100px] hover:scale-105">
               Dashboard
-              <ArrowUp className="pl-[6px] transition-all duration-[0.3s] w-[0px] group-hover:w-[30px] group-hover:h-[30px] group-hover:rotate-[45deg] group-hover:scale-200 group-hover:pb-1 group-hover:pl-1" />
+              <ArrowUp className="pl-[6px] transition-all duration-[0.3s] w-[0px] h-[0px] group-hover:w-[30px] group-hover:h-[30px] group-hover:rotate-[45deg] group-hover:scale-200 group-hover:pb-1 group-hover:pl-1" />
             </Button>
           </Link>
         )}
@@ -162,7 +162,7 @@ export default function Home() {
                 className="bg-card rounded-lg shadow p-2 cursor-pointer items-center flex justify-center flex-col transition-all duration-200"
               >
                 <button
-                  className="w-full flex justify-between items-center text-left text-lg font-semibold focus:outline-none"
+                  className="w-full flex justify-between items-center text-left text-lg pl-[10px] focus:outline-none opacity-[100]"
                   onClick={() =>
                     setOpenProblem(openProblem === idx ? null : idx)
                   }
@@ -204,9 +204,8 @@ export default function Home() {
                   </span>
                 </button>
                 <div
-                  className={`overflow-hidden transition-all duration-300 text-base opacity-80 ml-2 mt-4 ${
-                    openProblem === idx ? "max-h-40" : "max-h-0 invisible"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 text-base opacity-90 ml-2 mt-4 ${openProblem === idx ? "max-h-40" : "max-h-0 invisible"
+                    }`}
                 >
                   {openProblem === idx && <div>{item.answer}</div>}
                 </div>
@@ -220,47 +219,49 @@ export default function Home() {
             How to use?
           </h1>
           <div className="relative flex flex-col items-center w-full max-w-xl mx-">
-           
+
             <div className="absolute left-1/2 -translate-x-1/2 top-8 bottom-8 w-1 bg-gradient-to-b from-primary/60 to-accent/40 z-0" />
-          
+
             {[
               {
                 title: 'Sign up with Google',
                 desc: 'No credit card required',
-                icon: <LogIn className="text-primary bg-card rounded-full p-1 border border-border" size={36} />, 
+                icon: <LogIn size={18} />,
               },
               {
                 title: 'Create up to 10 projects',
                 desc: 'Give each project a memorable name, add optional descriptions, each gets a default thumbnail',
-                icon: <FolderPlus className="text-primary bg-card rounded-full p-1 border border-border" size={36} />, 
+                icon: <FolderPlus size={20} />,
               },
               {
                 title: 'Add your API endpoints',
                 desc: 'Up to 5 endpoints per project. Just paste your Runway/Render URLs. No complex configuration needed.',
-                icon: <Link2 className="text-primary bg-card rounded-full p-1 border border-border" size={36} />, 
+                icon: <Link2 size={20} />,
               },
               {
                 title: 'Activate and forget about it!',
                 desc: 'LazyPing automatically starts pinging. Your servers stay warm 24/7. Monitor uptime in your dashboard.',
-                icon: <Rocket className="text-primary bg-card rounded-full p-1 border border-border" size={36} />, 
+                icon: <Rocket size={20} />,
               },
             ].map((step, idx, arr) => (
               <div key={idx} className="relative flex items-center w-full z-10">
-              
+
                 <div className="flex flex-col items-center mr-4">
-                  <div className="z-10">{step.icon}</div>
+                  <div className="text-primary rounded-[50%] bg-card p-2 border border-border mb-2 p-[10px] flex items-center justify-center">
+                    {step.icon}
+                  </div>
                   {idx !== arr.length - 1 && (
                     <div className="w-1 h-8 bg-gradient-to-b from-primary/60 to-accent/40" />
                   )}
-            </div>
+                </div>
                 <div className="bg-card  rounded-lg shadow p-4 my-2 flex-1">
                   <div className="font-bold text-xl mb-1">Step {idx + 1}:</div>
                   <div className="text-lg font-semibold mb-1">{step.title}</div>
                   <div className="text-sm opacity-80">{step.desc}</div>
-            </div>
-            </div>
+                </div>
+              </div>
             ))}
-            </div>
+          </div>
         </div>
 
         <div className="flex gap-[20px] p-[10px_20px] flex-wrap max-[700px]:flex-col-reverse">
@@ -270,31 +271,39 @@ export default function Home() {
             </h1>
             <div className="w-full flex flex-col items-center">
               <div className="flex flex-row items-center justify-center w-full gap-6 max-w-[1200px] min-h-[180px] min-w-[60vw]">
-               
+
                 <div className="flex flex-col items-center text-center min-w-[140px]">
-                  <FolderPlus className="text-primary bg-card rounded-full p-2 border border-border mb-2" size={56} />
+                  <div className="text-primary rounded-[50%] bg-card p-2 border border-border mb-2 p-[14px] flex items-center justify-center">
+                    <FolderPlus size={30} />
+                  </div>
                   <span className="font-semibold text-lg">Random Selection</span>
                   <span className="text-primary opacity-70">Every 10 min, pick 1 endpoint</span>
                 </div>
                 <div className="h-1 w-16 bg-gradient-to-r from-primary to-primary/90 mx-4 rounded-full" />
 
-                
+
                 <div className="flex flex-col items-center text-center min-w-[140px]">
-                  <LoaderCircle className="text-primary bg-card rounded-full p-2 border border-border mb-2" size={56} />
+                  <div className="text-primary rounded-[50%] bg-card p-2 border border-border mb-2 p-[14px] flex items-center justify-center">
+                    <LoaderCircle size={30} />
+                  </div>
                   <span className="font-semibold text-lg">10-min Interval</span>
                   <span className="text-primary opacity-70">Keeps under 15-min sleep</span>
                 </div>
                 <div className="h-1 w-16 bg-gradient-to-r from-primary to-primary/60 mx-4 rounded-full" />
-          
+
                 <div className="flex flex-col items-center text-center min-w-[140px]">
-                  <Rocket className="text-primary bg-card rounded-full p-2 border border-border mb-2" size={56} />
+                  <div className="text-primary rounded-[50%] bg-card p-2 border border-border mb-2 p-[14px] flex items-center justify-center">
+                    <Rocket size={30} />
+                  </div>
                   <span className="font-semibold text-lg">Bot Avoidance</span>
                   <span className="text-primary opacity-70">Random, unpredictable</span>
                 </div>
                 <div className="h-1 w-16 bg-gradient-to-r from-primary/50 to-primary/10 mx-4 rounded-full" />
-                
+
                 <div className="flex flex-col items-center text-center min-w-[140px]">
-                  <CircleCheck className="text-primary bg-card rounded-full p-2 border border-border mb-2" size={56} />
+                  <div className="text-primary rounded-[50%] bg-card p-2 border border-border mb-2 p-[14px] flex items-center justify-center">
+                    <CircleCheck size={30} />
+                  </div>
                   <span className="font-semibold text-lg">Low Impact</span>
                   <span className="text-primary opacity-70">Lightweight, safe</span>
                 </div>
@@ -312,26 +321,26 @@ export default function Home() {
             <h1 className="text-[45px] font-[Inter] text-center mb-8">
               Perfect for Students & Indie Devs
             </h1>
-       
+
             <div className="flex flex-row flex-wrap gap-6 justify-center mt-10 mb-10">
-          
+
               <div className="flex flex-col w-sm items-center rounded-lg p-4 min-w-[140px] shadow">
-                <GraduationCap className="text-primary rounded-full p-2 mb-2 opacity-50" size={80} />
+                <GraduationCap className="text-primary p-2 mb-2 opacity-50" size={80} />
                 <span className="font-semibold text-lg">Students</span>
                 <span className="text-primary opacity-70 text-center">Showcase projects to recruiters, no credit card needed</span>
               </div>
               <div className="flex flex-col w-sm items-center rounded-lg p-4 min-w-[140px] shadow ">
-                <Code2 className="text-primary rounded-full p-2 mb-2 opacity-50" size={80} />
+                <Code2 className="text-primary p-2 mb-2 opacity-50" size={80} />
                 <span className="font-semibold text-lg">Indie Devs</span>
                 <span className="text-primary opacity-70 text-center">Keep portfolio and demo apps always live</span>
               </div>
               <div className="flex flex-col w-sm items-center rounded-lg p-4 min-w-[140px] shadow">
-                <Briefcase className="text-primary rounded-full p-2 mb-2 opacity-50" size={80} />
+                <Briefcase className="text-primary p-2 mb-2 opacity-50" size={80} />
                 <span className="font-semibold text-lg">Job Seekers</span>
                 <span className="text-primary opacity-70 text-center">Impress with instant project response times</span>
               </div>
               <div className="flex flex-col w-sm items-center rounded-lg p-4 min-w-[140px] shadow">
-                <Presentation className="text-primary rounded-full p-2 mb-2 opacity-50" size={80} />
+                <Presentation className="text-primary p-2 mb-2 opacity-50" size={80} />
                 <span className="font-semibold text-lg">Client Demos</span>
                 <span className="text-primary opacity-70 text-center">No embarrassing cold starts during presentations</span>
               </div>
@@ -348,17 +357,17 @@ export default function Home() {
             Supported Platforms
           </h1>
           <div className="mx-[10px] text-lg leading-relaxed opacity-80">
-              <ul className="flex flex-wrap gap-4 text-base font-semibold items-center justify-center">
-                <li className="border-1 border-primary rounded-3xl px-4 py-2">Runway</li>
-                <li className="border-1 border-primary rounded-3xl px-4 py-2">Render</li>
-                <li className="border-1 border-primary rounded-3xl px-4 py-2">Railway</li>
-                <li className="border-1 border-primary rounded-3xl px-4 py-2">Vercel</li>
-                <li className="border-1 border-primary rounded-3xl px-4 py-2">Netlify</li>
-                <li className="border-1 border-primary rounded-3xl px-4 py-2">Heroku</li>
-              </ul>
+            <ul className="flex flex-wrap gap-4 text-base font-semibold items-center justify-center">
+              <li className="border-1 border-primary rounded-3xl px-4 py-2 transition-colors duration-300 hover:bg-[var(--foreground)] hover:text-[var(--background)] cursor-pointer">Runway</li>
+              <li className="border-1 border-primary rounded-3xl px-4 py-2 transition-colors duration-300 hover:bg-[var(--foreground)] hover:text-[var(--background)] cursor-pointer">Render</li>
+              <li className="border-1 border-primary rounded-3xl px-4 py-2 transition-colors duration-300 hover:bg-[var(--foreground)] hover:text-[var(--background)] cursor-pointer">Railway</li>
+              <li className="border-1 border-primary rounded-3xl px-4 py-2 transition-colors duration-300 hover:bg-[var(--foreground)] hover:text-[var(--background)] cursor-pointer">Vercel</li>
+              <li className="border-1 border-primary rounded-3xl px-4 py-2 transition-colors duration-300 hover:bg-[var(--foreground)] hover:text-[var(--background)] cursor-pointer">Netlify</li>
+              <li className="border-1 border-primary rounded-3xl px-4 py-2 transition-colors duration-300 hover:bg-[var(--foreground)] hover:text-[var(--background)] cursor-pointer">Heroku</li>
+            </ul>
           </div>
         </div>
-   
+
       </div>
 
       <div className="flex flex-col gap-[10px] w-full mt-[40px] pt-[30px]">
@@ -433,7 +442,7 @@ export default function Home() {
                 className="w-[100%]"
                 target="_blank"
               >
-                <Button className="mt-[24px] bg-[#f1edfe] text-black w-full text-lg py-3">
+                <Button variant="secondary" className="mt-[24px] bg-[#f1edfe] text-black w-full text-lg py-3 hover:bg-[white]">
                   Choose this plan
                 </Button>
               </Link>
@@ -456,7 +465,7 @@ export default function Home() {
         </div>
       </div>
 
-        <Footer />
+      <Footer />
     </div>
   );
 }
