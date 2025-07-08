@@ -2,7 +2,7 @@
     width: 100%;
     /* min-height: 200vh; */
     /* background-color: #fffafa; */
-    background-color: #fffafab8;
+    background-color: var(--background);
     font-family: "Poppins";
     position: relative;
 }
@@ -26,8 +26,8 @@
 .loadingBtn {
     font-size: 28px;
     border-radius: 40px;
-    background-color: black;
-    color: white;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
     padding: 5px 20px;
     height: 50px;
     transition: all 0.2s;
@@ -84,19 +84,19 @@
     border-radius: 10px;
     justify-content: space-between;
     align-items: center;
-    background-color: #fffafa48;
+    background-color: var(--card);
     backdrop-filter: blur(40px);
-    border: 2px solid rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--border);
 }
 
 .tabDiv img {
-    border: 1px solid rgba(0, 0, 0, 0.251);
+    border: 1px solid var(--border);
     padding: 5px;
-    background-color: white;
+    background-color: var(--card);
 }
 
 .themeSwitchBtn {
-    background-color: white;
+    background-color: var(--card);
     border-radius: 10px;
     transition: all 0.3s;
     height: 45px;
@@ -104,7 +104,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    color: var(--foreground);
 }
 
 .themeSwitchBtn svg {
@@ -120,20 +121,19 @@
 }
 
 .tabDiv button {
-    background-color: white;
+    background-color: var(--card);
     padding: 10px 15px;
     font-size: 15px;
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
     transition: all 0.3s;
     height: 45px;
-    color: black;
+    color: var(--foreground);
 }
 
 .tabDiv button:hover {
-    background-color: rgb(245, 245, 245);
-    border: 2px solid rgba(255, 255, 255, 0.758);
-
+    background-color: var(--accent);
+    border: 2px solid var(--accent-foreground);
     cursor: pointer;
 }
 
@@ -164,11 +164,11 @@
     width: 100%;
     margin-top: 40px;
     padding-top: 30px;
-    background: rgb(251, 251, 251);
+    background: var(--muted);
 }
 
 .subsCardsDiv .card1 {
-    background-color: white;
+    background-color: var(--card);
     padding: 10px;
     border-radius: 10px;
     display: flex;
@@ -176,11 +176,11 @@
     gap: 12px;
     width: 100%;
     max-width: 400px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
 }
 
 .subsCardsDiv .card1 .r1 {
-    background-color: #f9f9f9;
+    background-color: var(--muted);
     border-radius: 8px;
     padding: 10px;
     display: flex;
@@ -210,7 +210,7 @@
 
 
 .subsCardsDiv .card2 {
-    background-color: white;
+    background-color: var(--card);
     padding: 10px;
     border-radius: 10px;
     display: flex;
@@ -218,7 +218,7 @@
     gap: 12px;
     width: 100%;
     max-width: 400px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
 
 }
 
@@ -252,6 +252,78 @@
     width: 100%;
 }
 
+.pricingCardsDiv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.pricingCard1, .pricingCard2 {
+    background-color: var(--card);
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 rgba(80, 60, 160, 0.10);
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    max-width: 520px;
+    min-width: 320px;
+    padding: 32px 28px 28px 28px;
+    transition: box-shadow 0.2s, border 0.2s;
+    font-size: 1.1rem;
+}
+
+.pricingCard1 {
+    background: linear-gradient(135deg, var(--muted) 0%, var(--card) 100%);
+}
+
+.pricingCard2 {
+    background: linear-gradient(137deg, rgba(129, 85, 240, 0.95) 0%, rgba(101, 47, 235, 0.95) 100%);
+    color: var(--primary-foreground, #fff);
+    border: 2px solid var(--primary);
+}
+
+.pricingCard1 h1, .pricingCard2 h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.pricingCard1 h2, .pricingCard2 h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.pricingCard1 p, .pricingCard2 p {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.pricingCard1 button, .pricingCard2 button {
+    margin-top: 20px;
+    width: 100%;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    padding: 12px 0;
+}
+
+@media (max-width: 900px) {
+    .pricingCardsDiv {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+    .pricingCard1, .pricingCard2 {
+        max-width: 98vw;
+        min-width: 0;
+        padding: 22px 8vw 22px 8vw;
+    }
+}
 
 @media(max-width:700px) {
     .addApiDiv {
