@@ -27,7 +27,7 @@ export default function Footer() {
                         width={90}
                         height={90}
                         alt="logo"
-                        className="sm:w-[90px] sm:h-[90px] w-[70px] h-[70px] object-contain"
+                        className="sm:w-[90px] sm:h-[90px] w-[70px] h-[70px] object-contain dark:invert"
                         unoptimized
                     />
                 </div>

@@ -24,7 +24,6 @@ export default function DashboardPage() {
     const [displayScreen, setDisplayScreen] = useState<"projects" | "newProject" | "apiEndpoints">("projects");
 
 
-
     const userDetails = useStore((state) => state.userDetails);
 
     const [newProjectDetails, setnewProjectDetails] = useState<projectType | null>(null)

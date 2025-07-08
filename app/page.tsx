@@ -379,7 +379,7 @@ export default function Home() {
               <h1 className="text-[40px] leading-[1em] font-bold text-primary">Free</h1>
               {session && (
                 <Link href="/dashboard">
-                  <Button className="mt-[24px] bg-[#855bf0] w-full bg-gradient-to-b from-[rgba(133,91,240,1)] to-[rgba(96,40,234,1)] text-lg py-3">
+                  <Button className="mt-[24px] bg-[#855bf0] w-full bg-gradient-to-b from-[rgba(133,91,240,1)] to-[rgba(96,40,234,1)] text-lg py-3 text-[white]">
                     Choose this plan
                   </Button>
                 </Link>
