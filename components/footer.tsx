@@ -5,16 +5,16 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
     return (
-        <div className="bg-[white] text-black/90 px-5 pb-8 pt-2 w-full font-poppins flex flex-col">
+        <div className="bg-background text-foreground px-5 pb-8 pt-2 w-full font-poppins flex flex-col">
             <div className="flex justify-between items-start flex-wrap">
                 <div className="flex flex-col mt-1 space-y-1">
-                    <Link href="https://github.com/abhraneeldhar7/lazy-ping" className="flex items-center gap-1" target="_blank">
+                    <Link href="https://github.com/abhraneeldhar7/lazy-ping" className="flex items-center gap-1 hover:text-muted-foreground transition-colors" target="_blank">
                         Open Source <ArrowUpRight size={14} />
                     </Link>
                     {/* <Link href="/updates" className="flex items-center gap-1">
                         Updates <ArrowUpRight size={14} />
                     </Link> */}
-                    <Link href="https://abhraneeldhar.vercel.app" target="_blank" className="flex items-center gap-1" popoverTarget="_blank">
+                    <Link href="https://abhraneeldhar.vercel.app" target="_blank" className="flex items-center gap-1 hover:text-muted-foreground transition-colors" popoverTarget="_blank">
                         Contact <ArrowUpRight size={14} />
                     </Link>
                 </div>
