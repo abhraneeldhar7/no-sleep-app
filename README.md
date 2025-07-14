@@ -1,26 +1,29 @@
-# Lazy Ping - Automated Endpoint Pinger
+# Lazy Ping: Automated Endpoint Pinger
 ![thumbnail](./public/assets/landingPage-6a6984e8-91d6-43e0-ae85-3ee552446492)
 ## 🗂️ Description
 
-Lazy Ping is a web application designed to automate the process of pinging API endpoints at regular intervals. The application allows users to create projects, add endpoints, and monitor their status. It uses Next.js, Supabase, and NextAuth for authentication and data storage.
+Lazy Ping is a web application designed to automate the process of pinging endpoints at regular intervals. The project aims to provide a simple and efficient way to monitor endpoint availability and performance. It is built using Next.js, Supabase, and Tailwind CSS, making it a modern and scalable solution.
 
-The application provides a user-friendly interface for managing projects and endpoints. Users can create new projects, add endpoints, and view their status. The application also includes features for authentication and authorization, ensuring that only authorized users can access and manage their projects.
-
-Lazy Ping aims to simplify the process of monitoring API endpoints, providing a reliable and efficient solution for developers and teams.
+The application allows users to create projects, add endpoints, and configure ping intervals. It also provides features like authentication, authorization, and logging. The project is designed for developers, DevOps teams, and anyone who needs to monitor endpoint availability.
 
 ## ✨ Key Features
 
 ### **Core Features**
-* **Project Management**: Create and manage projects with multiple endpoints
-* **Endpoint Management**: Add, edit, and delete endpoints for each project
-* **Endpoint Status**: View the status of each endpoint, including response times and error messages
-* **Authentication**: Secure authentication using NextAuth and Supabase
+* **Endpoint Management**: Add, edit, and delete endpoints
+* **Project Management**: Create and manage projects
+* **Ping Scheduling**: Configure ping intervals
+* **Authentication**: Secure login and authorization
 
-### **Automation Features**
-* **Scheduled Pinging**: Automatically ping endpoints at regular intervals (every 10 minutes)
-* **Logging**: Store logs of ping attempts, including response times and error messages
+### **UI Features**
+* **Dashboard**: View projects, endpoints, and ping history
+* **Tabbed Interface**: Easy navigation between projects and endpoints
+
+### **Backend Features**
+* **Supabase Integration**: Interact with Supabase database
+* **API Logging**: Log ping responses and errors
 
 ## 🗂️ Folder Structure
+
 ```mermaid
 graph TD;
 src-->app;
@@ -30,33 +33,28 @@ src-->utils;
 app-->api;
 app-->dashboard;
 app-->layout;
-app-->page;
+components-->ui;
 components-->endpointDisplay;
-components-->footer;
-components-->initPage;
-components-->landingpage;
-components-->sessionWrapper;
 lib-->store;
 lib-->types;
 lib-->utils;
-utils-->supabase;
 ```
 
 ## 🛠️ Tech Stack
 
 * Next.js
-* React
 * Supabase
-* NextAuth
 * Tailwind CSS
 * TypeScript
+* ESLint
+* PostCSS
 * Zustand
 
 ## ⚙️ Setup Instructions
 
-* Git clone the repository: https://github.com/abhraneeldhar7/lazy-ping.git
-* Install dependencies: `npm install` or `yarn install`
-* Start the development server: `npm run dev` or `yarn dev`
-* Open the application in your browser: `http://localhost:3000`
+* Git clone: https://github.com/abhraneeldhar7/lazy-ping.git
+* Install dependencies: `npm install`
+* Start development server: `npm run dev`
+* Build and deploy: `npm run build` and `npm run deploy`
 
-Note: Make sure to set up your Supabase instance and NextAuth configuration to use the application.
+* Make sure to configure environment variables for Supabase and NextAuth.
