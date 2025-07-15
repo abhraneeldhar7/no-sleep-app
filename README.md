@@ -1,5 +1,5 @@
 # Lazy Ping - Automated Endpoint Testing and Monitoring
-![thumbnail](./public/assets/landingPage-6a6984e8-91d6-43e0-ae85-3ee552446492)
+
 ## 🗂️ Description
 
 Lazy Ping is an open-source project designed to automate endpoint testing and monitoring. It provides a simple and efficient way to test and monitor API endpoints, ensuring they are always available and functioning correctly. This project is ideal for developers, DevOps teams, and anyone responsible for maintaining API endpoints.
